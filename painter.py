@@ -1,30 +1,22 @@
-import sys
-
+import argparse
 
 class Painter():
     def __init__(self, figure, width, height):
         if figure == 'C':
             self.canvas_width = width
             self.canvas_height = height
-            self.matrix = []
-            for i in range(self.canvas_width):
-                self.matrix.append([])
-                for j in range(self.canvas_height):
-                    self.matrix[i].append(' ')
+            self.matrix = [[' ' for j in range(self.canvas_height)] for i in range(self.canvas_width)]
         else:
             raise TypeError("Necessary to create canvas first")
+    
 
 
     def __call__(self, figure, *args):
         self.check_coordinates(*args)
-        if figure == 'L': 
-            self.draw_line(*args)
-        elif figure == 'R':
-            self.draw_rectangle(*args)
-        elif figure == 'B':
-            self.bucket_fill(*args)
-        else:
-            raise TypeError('Not support "{}" figure or function'.format(figure))
+        try:
+            Painter.FIGURE_FUNC_DICT[figure](self, *args)
+        except KeyError:
+            raise KeyError('Not support "{}" figure or function'.format(figure))
 
 
     def __str__(self):
@@ -41,9 +33,8 @@ class Painter():
     @staticmethod
     def check_coordinates(*args):
         for x in args:
-            if x is int:
-                if x <= 0:
-                    raise AttributeError("Coordinates must be more than 0")
+            if x is int and x <= 0:
+                raise AttributeError("Coordinates must be more than 0")
 
     @staticmethod
     def normalize_coordinates(*args): 
@@ -91,6 +82,13 @@ class Painter():
         fill_around(self, x, y)
 
 
+    FIGURE_FUNC_DICT = {
+            'L': draw_line, 
+            'R': draw_rectangle, 
+            'B': bucket_fill, 
+            }
+
+
 def main(input_file, output_file):
     with open(input_file) as input:
         for line in input:
@@ -111,23 +109,13 @@ def main(input_file, output_file):
 
 
 if __name__ == "__main__":
-    args = sys.argv[1:]
-    if '-in' in args:
-        pos = args.index('-in')
-        input_file = args[pos+1]
-    elif '--input' in args:
-        pos = args.index('--input')
-        input_file = args[pos+1]
-    else:
-        raise AttributeError('No input params. Use "painter.py -in input.txt" or "painter.py --input input.txt"')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-in', '--input', help="Input file from which painter\
+            take the figures coordinates and colors.", default="input.txt")
+    parser.add_argument('-out', '--output', help="To which file output figurel.",
+            default="output.txt")
+    args = parser.parse_args()
+    print(f'{args=}')
 
-    if '-out' in args:
-        pos = args.index('-out')
-        output_file = args[pos+1]
-    elif '--output' in args:
-        pos = args.index('--output')
-        output_file = args[pos+1]
-    else:
-        output_file = 'painter_output'
+    main(input_file=args.input, output_file=args.output)
 
-    main(input_file=input_file, output_file=output_file)
