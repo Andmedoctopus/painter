@@ -115,7 +115,5 @@ if __name__ == "__main__":
     parser.add_argument('-out', '--output', help="To which file output figurel.",
             default="output.txt")
     args = parser.parse_args()
-    print(f'{args=}')
-
     main(input_file=args.input, output_file=args.output)
 
