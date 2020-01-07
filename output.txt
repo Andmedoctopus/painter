@@ -1,23 +1,23 @@
 --------------------------------
-|               XXXXX          |
-|XXXXXX         X   X          |
-|oooooX         XXXXX          |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX             XXXXXX     |
-|oooooX             X    X     |
-|oooooX             X    X     |
-|oooooX             X    X     |
-|oooooX             X    X     |
-|oooooX             XXXXXX     |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
-|oooooX                        |
+|oooooooooooooooXXXXXoooooooooo|
+|XXXXXXoooooooooX   Xoooooooooo|
+|     XoooooooooXXXXXoooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     XoooooooooooooXXXXXXooooo|
+|     XoooooooooooooX    Xooooo|
+|     XoooooooooooooX    Xooooo|
+|     XoooooooooooooX    Xooooo|
+|     XoooooooooooooX    Xooooo|
+|     XoooooooooooooXXXXXXooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
+|     Xoooooooooooooooooooooooo|
 --------------------------------
 

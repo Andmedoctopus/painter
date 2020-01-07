@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+
+import re
 import argparse
+
 
 class Painter():
     def __init__(self, figure, width, height):
@@ -33,8 +37,8 @@ class Painter():
     @staticmethod
     def check_coordinates(*args):
         for x in args:
-            if x is int and x <= 0:
-                raise AttributeError("Coordinates must be more than 0")
+            if isinstance(x,int) and x <= 0:
+                raise IndexError("Coordinates must be more than 0")
 
     @staticmethod
     def normalize_coordinates(*args): 
@@ -64,6 +68,7 @@ class Painter():
     def bucket_fill(self, x, y, color):
         x, y = self.normalize_coordinates(x, y)
         curr_color = self.matrix[x][y]
+
         def fill_around(self, x, y):
             self.matrix[x][y] = color
             for i in range(3):
@@ -89,21 +94,49 @@ class Painter():
             }
 
 
-def main(input_file, output_file):
-    with open(input_file) as input:
-        for line in input:
-            fig, *args = line.split()
-            arglist = []
-            for x in args:
-                if x.isdigit():
-                    arglist.append(int(x))
+def draw(input_file=None, figure=None):
+    if input_file and not figure:
+        with open(input_file) as input:
+            for line in input:
+                fig, *args = line.split()
+                args = args_to_int(*args)
+                if fig == 'C':
+                    output_figure = Painter(fig, *args)
                 else:
-                    arglist.append(x)
-            args = tuple(arglist)
-            if fig == 'C':
-                output_figure = Painter(fig, *args)
-            else:
-                output_figure(fig, *arglist)            
+                    try:
+                        output_figure(fig, *args)            
+                    except UnboundLocalError:
+                        raise TypeError("Need to create convas first") 
+            return output_figure
+    elif input_file and figure:
+        with open(input_file) as input:
+            for line in input:
+                fig, *args = line.split()
+                args = args_to_int(*args)
+                try:
+                    figure(fig, *args)            
+                except UnboundLocalError:
+                    raise TypeError("Need to create convas first") 
+            return figure
+    else:
+        raise AttributeError("No command for drawing. Try to add input file.")
+
+
+
+def args_to_int(*args):
+    arglist = []
+    for x in args:
+        if x.isdigit():
+            arglist.append(int(x))
+        else:
+            arglist.append(x)
+    return tuple(arglist)
+
+
+
+def main(input_file, output_file):
+    output_figure = draw(input_file = input_file)
+
     with open(output_file, 'w') as output:
         print(output_figure, file=output)
 
@@ -115,5 +148,10 @@ if __name__ == "__main__":
     parser.add_argument('-out', '--output', help="To which file output figurel.",
             default="output.txt")
     args = parser.parse_args()
+
+    if args.input[-3:] == '.in' and args.output == "output.txt":
+        args.output = args.input.replace('.in', '.out') 
+        args.output = args.output.replace('input_case', 'output_case') 
+
     main(input_file=args.input, output_file=args.output)
 
