@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import re
 import argparse
 
 
@@ -13,15 +12,12 @@ class Painter():
         else:
             raise TypeError("Necessary to create canvas first")
     
-
-
     def __call__(self, figure, *args):
         self.check_coordinates(*args)
         try:
             Painter.FIGURE_FUNC_DICT[figure](self, *args)
         except KeyError:
             raise KeyError('Not support "{}" figure or function'.format(figure))
-
 
     def __str__(self):
         self._result = '-' * self.canvas_width + '--\n'
@@ -33,7 +29,6 @@ class Painter():
         self._result += '-' * self.canvas_width + '--\n'
         return self._result
 
-
     @staticmethod
     def check_coordinates(*args):
         for x in args:
@@ -44,7 +39,6 @@ class Painter():
     def normalize_coordinates(*args): 
         return tuple(x-1 for x in args)
 
-
     def draw_line(self, x1, y1, x2, y2, fill='X'):
         x1, y1, x2, y2 = self.normalize_coordinates(x1, y1, x2, y2)
         if x1 == x2:
@@ -54,7 +48,6 @@ class Painter():
             for i in range(x1, x2+1):
                 self.matrix[i][y1] = fill
 
-
     def draw_rectangle(self, x1, y1, x2, y2, fill='X'):
         x1, y1, x2, y2 = self.normalize_coordinates(x1, y1, x2, y2)
         for i in range(x1, x2+1):
@@ -63,7 +56,6 @@ class Painter():
         for j in range(y1, y2+1):
             self.matrix[x1][j] = fill
             self.matrix[x2][j] = fill
-
 
     def bucket_fill(self, x, y, color):
         x, y = self.normalize_coordinates(x, y)
@@ -85,7 +77,6 @@ class Painter():
                         self.matrix[next_x][next_y] = color
                         fill_around(self, x=next_x, y=next_y)
         fill_around(self, x, y)
-
 
     FIGURE_FUNC_DICT = {
             'L': draw_line, 
@@ -122,7 +113,6 @@ def draw(input_file=None, figure=None):
         raise AttributeError("No command for drawing. Try to add input file.")
 
 
-
 def args_to_int(*args):
     arglist = []
     for x in args:
@@ -131,7 +121,6 @@ def args_to_int(*args):
         else:
             arglist.append(x)
     return tuple(arglist)
-
 
 
 def main(input_file, output_file):
