@@ -8,7 +8,7 @@ class Painter():
         if figure == 'C':
             self.canvas_width = width
             self.canvas_height = height
-            self.matrix = [[' ' for j in range(self.canvas_height)] for i in range(self.canvas_width)]
+            self.matrix = [[' '] * self.canvas_height for i in range(self.canvas_width)]
         else:
             raise TypeError("Necessary to create canvas first")
     
